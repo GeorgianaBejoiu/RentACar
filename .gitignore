@@ -1,0 +1,25 @@
+﻿# Mediul virtual Python
+venv/
+.venv/
+env/
+
+# Fisiere Python temporare
+__pycache__/
+*.py[cod]
+
+# Variabile si parole secrete
+.env
+.env.*
+!.env.example
+
+# Baze de date locale
+*.sqlite3
+
+# Setari locale
+.vscode/
+*.log
+
+# Fisiere sistem
+.DS_Store
+Thumbs.db
+desktop.ini
