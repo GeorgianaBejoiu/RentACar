@@ -37,13 +37,17 @@ class MasinaAdmin(admin.ModelAdmin):
         'marca',
         'tip',
         'clasa',
-        'pret_ora',
+        'pret_ora_ron',
         'status',
     )
 
     list_filter = ('status', 'marca', 'tip', 'clasa')
 
     search_fields = ('nr_inmatriculare', 'marca__marca')
+
+    @admin.display(description='Pret pe ora (RON)')
+    def pret_ora_ron(self, obj):
+        return f"{obj.pret_ora} RON/oră"
 
 
 admin.site.register(MasinaCombustibil)

@@ -1,0 +1,28 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autentificare - RentACar</title>
+    <link rel="stylesheet" href="{% static 'aplicatie/style.css' %}">
+</head>
+<body>
+
+    <div class="container">
+        <div class="login-card">
+            <h1>RentACar</h1>
+            <p class="subtitle">Bine ai venit! Autentifică-te în contul tău.</p>
+
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit">Autentificare</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

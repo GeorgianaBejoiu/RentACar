@@ -1,0 +1,26 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentACar - Pagina clientului</title>
+    <link rel="stylesheet" href="{% static 'aplicatie/style.css' %}">
+</head>
+<body>
+
+    <div class="client-container">
+        <h1>Bine ai venit la RentACar!</h1>
+
+        <p>Te-ai autentificat cu succes.</p>
+
+        <p>Suntem bucuroși să te avem alături!</p>
+
+        <a href="{% url 'logout_client' %}" class="logout-link">
+            Deconectare
+        </a>
+    </div>
+
+</body>
+</html>
