@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mașini disponibile - RentACar</title>
+    <link rel="stylesheet" href="{% static 'aplicatie/style.css' %}">
+</head>
+<body>
+    <div class="client-container">
+        <h1>Mașini disponibile</h1>
+
+        {% if masini %}
+            {% for masina in masini %}
+                <div class="login-card">
+
+                    {% if masina.imagine %}
+                        <img src="{{ masina.imagine.url }}"
+                             alt="{{ masina.marca }} {{ masina.model }}"
+                             class="car-image">
+                    {% endif %}
+
+                    <h2>{{ masina.marca }} {{ masina.model }}</h2>
+
+                    <p>
+                        <strong>Număr înmatriculare:</strong>
+                        {{ masina.nr_inmatriculare }}
+                    </p>
+
+                    <p>
+                        <strong>Tip:</strong>
+                        {{ masina.tip }}
+                    </p>
+
+                    <p>
+                        <strong>Clasă:</strong>
+                        {{ masina.clasa }}
+                    </p>
+
+                    <p>
+                        <strong>Kilometraj:</strong>
+                        {{ masina.nr_km }} km
+                    </p>
+
+                    <p>
+                        <strong>An fabricație:</strong>
+                        {{ masina.data_fabricatiei|date:"Y" }}
+                    </p>
+
+                    <p>
+                        <strong>Preț:</strong>
+                        {{ masina.pret_ora }} RON/oră
+                    </p>
+
+                    {% if masina.descriere %}
+                        <p>{{ masina.descriere }}</p>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Momentan nu există mașini disponibile.</p>
+        {% endif %}
+
+        <a href="{% url 'client_home' %}" class="back-link">
+            Înapoi la pagina clientului
+        </a>
+    </div>
+</body>
+</html>

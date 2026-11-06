@@ -115,6 +115,13 @@ class Masina(models.Model):
 
     id_masina = models.AutoField(primary_key=True)
     nr_inmatriculare = models.CharField(max_length=20, unique=True)
+    model = models.CharField(max_length=100, default='Nespecificat')
+    descriere = models.TextField(blank=True, null=True)
+    imagine = models.ImageField(
+    upload_to='masini/',
+    blank=True,
+    null=True
+)
     nr_km = models.PositiveIntegerField()
     data_fabricatiei = models.DateField()
     pret_ora = models.DecimalField(

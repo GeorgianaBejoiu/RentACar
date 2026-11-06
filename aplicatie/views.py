@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 
-from .models import Persoana, Client
+from .models import Persoana, Client, Masina
 
 
 def login_client(request):
@@ -28,7 +28,7 @@ def login_client(request):
 
         else:
             login(request, utilizator)
-            return redirect('client_home')
+            return redirect('lista_masini')
 
     return render(
         request,
@@ -50,3 +50,19 @@ def client_home(request):
 def logout_client(request):
     logout(request)
     return redirect('login_client')
+
+@login_required(login_url='login_client')
+def lista_masini(request):
+    try:
+        persoana = request.user.persoana
+        client = persoana.client
+    except (Persoana.DoesNotExist, Client.DoesNotExist):
+        return HttpResponseForbidden(
+            'Nu ai permisiunea de a accesa această pagină.'
+        )
+
+    masini = Masina.objects.filter(status='Disponibila')
+
+    return render(request, 'aplicatie/masini.html', {
+        'masini': masini
+    })

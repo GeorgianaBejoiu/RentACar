@@ -110,3 +110,28 @@ button:hover {
 .logout-link:hover {
     background: #1d4ed8;
 }
+
+.car-image {
+    width: 100%;
+    max-width: 420px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 12px 25px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.back-link:hover {
+    background: #1d4ed8;
+}
