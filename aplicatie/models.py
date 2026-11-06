@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+from django.core.validators import MinValueValidator
 
 # Create your models here.
 
@@ -11,11 +13,21 @@ class Persoana(models.Model):
     email = models.EmailField(unique=True)
     adresa = models.CharField(max_length=255)
 
+    utilizator = models.OneToOneField(
+    settings.AUTH_USER_MODEL,
+    on_delete=models.CASCADE,
+    related_name='persoana',
+    null=True,
+    blank=True
+)
+
     def __str__(self):
         return f"{self.nume} {self.prenume}"
 
     class Meta:
         db_table = 'Persoana'
+        verbose_name = 'Persoana'
+        verbose_name_plural = 'Persoane'
 
 # CLIENT
 class Client(models.Model):
@@ -28,6 +40,8 @@ class Client(models.Model):
 
     class Meta:
         db_table = 'Client'
+        verbose_name = 'Client'
+        verbose_name_plural = 'Clienti'
 
     def __str__(self):
         return str(self.id_persoana)
@@ -45,6 +59,8 @@ class Angajat(models.Model):
 
     class Meta:
         db_table = 'Angajat'
+        verbose_name = 'Angajat'
+        verbose_name_plural = 'Angajati'
 
     def __str__(self):
         return f"{self.id_persoana} - {self.functie}"
@@ -57,6 +73,8 @@ class Marca(models.Model):
 
     class Meta:
         db_table = 'Marca'
+        verbose_name = 'Marca'
+        verbose_name_plural = 'Marci'
 
     def __str__(self):
         return self.marca
@@ -69,6 +87,8 @@ class Tip(models.Model):
 
     class Meta:
         db_table = 'Tip'
+        verbose_name = 'Tip'
+        verbose_name_plural = 'Tipuri'
 
     def __str__(self):
         return self.tip
@@ -80,6 +100,8 @@ class Clasa(models.Model):
 
     class Meta:
         db_table = 'Clasa'
+        verbose_name = 'Clasa'
+        verbose_name_plural = 'Clase'
 
     def __str__(self):
         return self.clasa
@@ -95,7 +117,11 @@ class Masina(models.Model):
     nr_inmatriculare = models.CharField(max_length=20, unique=True)
     nr_km = models.PositiveIntegerField()
     data_fabricatiei = models.DateField()
-    pret_ora = models.DecimalField(max_digits=10, decimal_places=2)
+    pret_ora = models.DecimalField(
+    max_digits=10,
+    decimal_places=2,
+    validators=[MinValueValidator(0.01)]
+)
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
@@ -120,6 +146,8 @@ class Masina(models.Model):
 
     class Meta:
         db_table = 'Masina'
+        verbose_name = 'Masina'
+        verbose_name_plural = 'Masini'
 
     def __str__(self):
         return self.nr_inmatriculare
@@ -140,6 +168,8 @@ class MasinaCombustibil(models.Model):
 
     class Meta:
         db_table = 'MasinaCombustibil'
+        verbose_name = 'MasinaCombustibil'
+        verbose_name_plural = 'MasiniCombustibil'
 
     def __str__(self):
         return f"{self.id_masina} - {self.tip_combustibil}"
@@ -160,6 +190,8 @@ class MasinaElectrica(models.Model):
 
     class Meta:
         db_table = 'MasinaElectrica'
+        verbose_name = 'MasinaElectrica'
+        verbose_name_plural = 'MasiniElectrice'
 
     def __str__(self):
         return f"{self.id_masina} - {self.autonomie_km} km"
@@ -185,6 +217,8 @@ class MasinaHibrida(models.Model):
 
     class Meta:
         db_table = 'MasinaHibrida'
+        verbose_name = 'MasinaHibrida'
+        verbose_name_plural = 'MasiniHibride'
 
     def __str__(self):
         return f"{self.id_masina} - Hibrida"
@@ -210,6 +244,8 @@ class Inchiriere(models.Model):
 
     class Meta:
         db_table = 'Inchiriere'
+        verbose_name = 'Inchiriere'
+        verbose_name_plural = 'Inchirieri'
         constraints = [
             models.CheckConstraint(
                 condition=models.Q(data_sfarsit__gt=models.F('data_inceput')),
@@ -238,6 +274,8 @@ class AngajatInchiriere(models.Model):
 
     class Meta:
         db_table = 'AngajatInchiriere'
+        verbose_name = 'AngajatInchiriere'
+        verbose_name_plural = 'AngajatiInchirieri'
         constraints = [
             models.UniqueConstraint(
                 fields=['id_angajat', 'id_inchiriere'],
@@ -267,6 +305,8 @@ class Plata(models.Model):
 
     class Meta:
         db_table = 'Plata'
+        verbose_name = 'Plata'
+        verbose_name_plural = 'Plati'
         constraints = [
             models.CheckConstraint(
                 condition=models.Q(suma__gt=0),
@@ -293,6 +333,8 @@ class Asigurare(models.Model):
 
     class Meta:
         db_table = 'Asigurare'
+        verbose_name = 'Asigurare'
+        verbose_name_plural = 'Asigurari'
         constraints = [
             models.CheckConstraint(
                 condition=models.Q(data_sfarsit__gt=models.F('data_inceput')),
@@ -316,6 +358,8 @@ class Revizie(models.Model):
 
     class Meta:
         db_table = 'Revizie'
+        verbose_name = 'Revizie'
+        verbose_name_plural = 'Revizii'
         constraints = [
             models.CheckConstraint(
                 condition=models.Q(cost__gte=0),
@@ -349,6 +393,8 @@ class AreRevizii(models.Model):
 
     class Meta:
         db_table = 'AreRevizii'
+        verbose_name = 'AreRevizii'
+        verbose_name_plural = 'AreRevizii'
         constraints = [
             models.UniqueConstraint(
                 fields=['id_angajat', 'id_masina', 'id_revizie'],
