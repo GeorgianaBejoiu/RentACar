@@ -204,3 +204,110 @@ button:hover {
 .logout-link:hover {
     background-color: #c9302c;
 }
+
+/* Pagina de înregistrare */
+.register-card {
+    max-width: 550px;
+    padding: 35px 45px;
+}
+
+.register-card form {
+    margin-top: 25px;
+}
+
+.register-card form p {
+    margin-bottom: 15px;
+}
+
+.register-card input {
+    padding: 13px;
+    font-size: 15px;
+}
+
+.register-card button {
+    margin-top: 15px;
+    padding: 14px;
+}
+
+.register-footer {
+    text-align: center;
+    margin-top: 25px;
+    color: #aab7c8;
+}
+
+.register-footer a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-footer a:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+}
+
+.register-card .errorlist {
+    color: #f87171;
+    font-size: 13px;
+    margin: 5px 0 10px;
+    list-style: none;
+}
+
+@media (max-width: 600px) {
+    .register-card {
+        padding: 25px 20px;
+    }
+}
+
+/* Link pentru crearea unui cont nou */
+.login-footer {
+    text-align: center;
+    margin-top: 25px;
+    color: #aab7c8;
+}
+
+.login-footer a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-footer a:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+}
+
+/* Zona cu numele clientului și butonul de deconectare */
+.user-actions {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.welcome-user {
+    color: #dce5f1;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.user-actions .logout-link {
+    position: static;
+}
+
+@media (max-width: 600px) {
+    .user-actions {
+        position: relative;
+        top: auto;
+        right: auto;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 15px auto 25px;
+    }
+}

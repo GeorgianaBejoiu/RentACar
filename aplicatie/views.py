@@ -3,6 +3,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+from django.contrib.auth.models import User
+from django.db import transaction
+from .forms import InregistrareClientForm
 
 from .models import Persoana, Client, Masina, Marca, Tip, Clasa
 
@@ -97,6 +100,7 @@ def lista_masini(request):
         'marca_selectata': marca_selectata,
         'tip_selectat': tip_selectat,
         'clasa_selectata': clasa_selectata,
+        'nume_client': persoana.prenume + ' ' + persoana.nume,
     })
 @login_required(login_url='login_client')
 def detalii_masina(request, id_masina):
@@ -117,3 +121,35 @@ def detalii_masina(request, id_masina):
     return render(request, 'aplicatie/detalii_masina.html', {
         'masina': masina
     })
+def inregistrare_client(request):
+    form = InregistrareClientForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        with transaction.atomic():
+            utilizator = User.objects.create_user(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1']
+            )
+
+            persoana = Persoana.objects.create(
+                nume=form.cleaned_data['nume'],
+                prenume=form.cleaned_data['prenume'],
+                telefon=form.cleaned_data['telefon'],
+                email=form.cleaned_data['email'],
+                adresa=form.cleaned_data['adresa'],
+                tip_persoana='Client',
+                utilizator=utilizator
+            )
+
+            Client.objects.create(
+                id_persoana=persoana
+            )
+
+        login(request, utilizator)
+        return redirect('lista_masini')
+
+    return render(
+        request,
+        'aplicatie/inregistrare.html',
+        {'form': form}
+    )

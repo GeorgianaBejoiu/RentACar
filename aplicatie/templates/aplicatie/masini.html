@@ -12,9 +12,10 @@
 
 <body>
 
-    <a href="{% url 'logout_client' %}" class="logout-link">
-        Deconectare
-    </a>
+    <div class="user-actions">
+        <span class="welcome-user">Bine ai venit, {{ nume_client }}!</span>
+        <a href="{% url 'logout_client' %}" class="logout-link">Deconectare</a>
+    </div>
 
     <div class="client-container">
 
@@ -26,10 +27,10 @@
             <select name="marca" id="marca">
                 <option value="">Toate mărcile</option>
                 {% for marca in marci %}
-                <option value="{{ marca.id_marca }}"
-                    {% if marca_selectata == marca.id_marca|stringformat:"s" %}selected{% endif %}>
-                    {{ marca.marca }}
-                </option>
+                    <option value="{{ marca.id_marca }}"
+                        {% if marca_selectata == marca.id_marca|stringformat:"s" %}selected{% endif %}>
+                        {{ marca.marca }}
+                    </option>
                 {% endfor %}
             </select>
 
@@ -37,10 +38,10 @@
             <select name="tip" id="tip">
                 <option value="">Toate tipurile</option>
                 {% for tip in tipuri %}
-                <option value="{{ tip.id_tip }}"
-                    {% if tip_selectat == tip.id_tip|stringformat:"s" %}selected{% endif %}>
-                    {{ tip.tip }}
-                </option>
+                    <option value="{{ tip.id_tip }}"
+                        {% if tip_selectat == tip.id_tip|stringformat:"s" %}selected{% endif %}>
+                        {{ tip.tip }}
+                    </option>
                 {% endfor %}
             </select>
 
@@ -48,10 +49,10 @@
             <select name="clasa" id="clasa">
                 <option value="">Toate clasele</option>
                 {% for clasa in clase %}
-                <option value="{{ clasa.id_clasa }}"
-                    {% if clasa_selectata == clasa.id_clasa|stringformat:"s" %}selected{% endif %}>
-                    {{ clasa.clasa }}
-                </option>
+                    <option value="{{ clasa.id_clasa }}"
+                        {% if clasa_selectata == clasa.id_clasa|stringformat:"s" %}selected{% endif %}>
+                        {{ clasa.clasa }}
+                    </option>
                 {% endfor %}
             </select>
 
@@ -65,46 +66,46 @@
 
         {% if masini %}
 
-        <div class="cars-grid">
+            <div class="cars-grid">
 
-            {% for masina in masini %}
+                {% for masina in masini %}
 
-            <div class="login-card">
+                    <div class="login-card">
 
-                {% if masina.imagine %}
-                <img
-                    src="{{ masina.imagine.url }}"
-                    alt="{{ masina.marca }} {{ masina.model }}"
-                    class="car-image">
-                {% endif %}
+                        {% if masina.imagine %}
+                            <img src="{{ masina.imagine.url }}"
+                                 alt="{{ masina.marca }} {{ masina.model }}"
+                                 class="car-image">
+                        {% endif %}
 
-                <h2>{{ masina.marca }} {{ masina.model }}</h2>
+                        <h2>{{ masina.marca }} {{ masina.model }}</h2>
 
-                <p>
-                    <strong>Clasă:</strong> {{ masina.clasa }}
-                </p>
+                        <p>
+                            <strong>Clasă:</strong> {{ masina.clasa }}
+                        </p>
 
-                <p>
-                    <strong>Tip:</strong> {{ masina.tip }}
-                </p>
+                        <p>
+                            <strong>Tip:</strong> {{ masina.tip }}
+                        </p>
 
-                <p>
-                    <strong>Preț:</strong> {{ masina.pret_ora }} RON/oră
-                </p>
+                        <p>
+                            <strong>Preț:</strong> {{ masina.pret_ora }} RON/oră
+                        </p>
 
-                <a href="{% url 'detalii_masina' masina.id_masina %}" class="back-link">
-                    Vezi detalii
-                </a>
+                        <a href="{% url 'detalii_masina' masina.id_masina %}"
+                           class="back-link">
+                            Vezi detalii
+                        </a>
+
+                    </div>
+
+                {% endfor %}
 
             </div>
 
-            {% endfor %}
-
-        </div>
-
         {% else %}
 
-        <p>Momentan nu există mașini disponibile.</p>
+            <p>Momentan nu există mașini disponibile.</p>
 
         {% endif %}
 
