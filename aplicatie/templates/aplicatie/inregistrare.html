@@ -1,0 +1,35 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creare cont - RentACar</title>
+    <link rel="stylesheet" href="{% static 'aplicatie/style.css' %}">
+</head>
+<body>
+
+    <div class="container">
+        <div class="login-card register-card">
+            <h1>RentACar</h1>
+            <p class="subtitle">Creează un cont nou de client.</p>
+
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit">Creează cont</button>
+            </form>
+
+            <div class="register-footer">
+                <p>Ai deja un cont?</p>
+                <a href="{% url 'login_client' %}">
+                    Autentifică-te aici
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

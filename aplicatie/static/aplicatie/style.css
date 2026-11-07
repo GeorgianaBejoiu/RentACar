@@ -97,16 +97,217 @@ button:hover {
     margin: 20px 0;
 }
 
-.logout-link {
+.car-image {
+    width: 100%;
+    max-width: 420px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.back-link {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 25px;
     padding: 12px 25px;
     background: #2563eb;
     color: white;
     text-decoration: none;
     border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.back-link:hover {
+    background: #1d4ed8;
+}
+
+/* Stil pentru filtrele de mașini */
+.filters-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 25px 0 35px;
+}
+
+.filters-form label {
+    display: inline-block;
+    margin: 0;
+    color: #dce5f1;
+}
+
+.filters-form select {
+    width: auto;
+    min-width: 130px;
+    padding: 10px 12px;
+    border: 1px solid #3b4b63;
+    border-radius: 8px;
+    background: #101827;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.filters-form button {
+    width: auto;
+    margin: 0;
+    padding: 10px 20px;
+}
+
+.filters-form a {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: #37465c;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.filters-form a:hover {
+    background: #4b5d76;
+}
+.cars-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.cars-grid .login-card {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    .cars-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.logout-link {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    padding: 10px 18px;
+    background-color: #d9534f;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
 }
 
 .logout-link:hover {
-    background: #1d4ed8;
+    background-color: #c9302c;
+}
+
+/* Pagina de înregistrare */
+.register-card {
+    max-width: 550px;
+    padding: 35px 45px;
+}
+
+.register-card form {
+    margin-top: 25px;
+}
+
+.register-card form p {
+    margin-bottom: 15px;
+}
+
+.register-card input {
+    padding: 13px;
+    font-size: 15px;
+}
+
+.register-card button {
+    margin-top: 15px;
+    padding: 14px;
+}
+
+.register-footer {
+    text-align: center;
+    margin-top: 25px;
+    color: #aab7c8;
+}
+
+.register-footer a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-footer a:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+}
+
+.register-card .errorlist {
+    color: #f87171;
+    font-size: 13px;
+    margin: 5px 0 10px;
+    list-style: none;
+}
+
+@media (max-width: 600px) {
+    .register-card {
+        padding: 25px 20px;
+    }
+}
+
+/* Link pentru crearea unui cont nou */
+.login-footer {
+    text-align: center;
+    margin-top: 25px;
+    color: #aab7c8;
+}
+
+.login-footer a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-footer a:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+}
+
+/* Zona cu numele clientului și butonul de deconectare */
+.user-actions {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.welcome-user {
+    color: #dce5f1;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.user-actions .logout-link {
+    position: static;
+}
+
+@media (max-width: 600px) {
+    .user-actions {
+        position: relative;
+        top: auto;
+        right: auto;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 15px auto 25px;
+    }
 }

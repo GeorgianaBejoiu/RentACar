@@ -29,10 +29,12 @@ admin.site.register(Tip)
 admin.site.register(Clasa)
 
 
+
 @admin.register(Masina)
 class MasinaAdmin(admin.ModelAdmin):
     list_display = (
         'id_masina',
+        'model',
         'nr_inmatriculare',
         'marca',
         'tip',
@@ -43,11 +45,16 @@ class MasinaAdmin(admin.ModelAdmin):
 
     list_filter = ('status', 'marca', 'tip', 'clasa')
 
-    search_fields = ('nr_inmatriculare', 'marca__marca')
+    search_fields = (
+        'model',
+        'nr_inmatriculare',
+        'marca__marca',
+    )
 
     @admin.display(description='Pret pe ora (RON)')
     def pret_ora_ron(self, obj):
         return f"{obj.pret_ora} RON/oră"
+
 
 
 admin.site.register(MasinaCombustibil)

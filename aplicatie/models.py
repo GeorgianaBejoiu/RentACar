@@ -12,6 +12,14 @@ class Persoana(models.Model):
     telefon = models.CharField(max_length=20)
     email = models.EmailField(unique=True)
     adresa = models.CharField(max_length=255)
+    tip_persoana = models.CharField(
+    max_length=20,
+    choices=[
+        ('Client', 'Client'),
+        ('Angajat', 'Angajat'),
+    ]
+
+)
 
     utilizator = models.OneToOneField(
     settings.AUTH_USER_MODEL,
@@ -115,6 +123,13 @@ class Masina(models.Model):
 
     id_masina = models.AutoField(primary_key=True)
     nr_inmatriculare = models.CharField(max_length=20, unique=True)
+    model = models.CharField(max_length=100, default='Nespecificat')
+    descriere = models.TextField(blank=True, null=True)
+    imagine = models.ImageField(
+    upload_to='masini/',
+    blank=True,
+    null=True
+)
     nr_km = models.PositiveIntegerField()
     data_fabricatiei = models.DateField()
     pret_ora = models.DecimalField(
@@ -127,6 +142,15 @@ class Masina(models.Model):
         choices=STATUS_CHOICES,
         default='Disponibila'
     )
+
+    tip_masina = models.CharField(
+    max_length=20,
+    choices=[
+        ('Combustibil', 'Combustibil'),
+        ('Electrica', 'Electrica'),
+        ('Hibrida', 'Hibrida'),
+    ]
+)
 
     marca = models.ForeignKey(
         Marca,
