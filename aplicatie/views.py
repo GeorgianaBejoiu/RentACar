@@ -1,10 +1,11 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 
 from .models import Persoana, Client, Masina, Marca, Tip, Clasa
+
 
 
 def login_client(request):
@@ -16,6 +17,12 @@ def login_client(request):
     if request.method == 'POST' and form.is_valid():
         utilizator = form.get_user()
 
+        # Verificăm dacă utilizatorul este administrator
+        if utilizator.is_staff:
+            login(request, utilizator)
+            return redirect('admin:index')
+
+        # Dacă nu este administrator, verificăm dacă este client
         try:
             persoana = utilizator.persoana
             client = persoana.client
@@ -35,6 +42,7 @@ def login_client(request):
         'aplicatie/login.html',
         {'form': form}
     )
+
 @login_required(login_url='login_client')
 def client_home(request):
     try:
@@ -89,4 +97,23 @@ def lista_masini(request):
         'marca_selectata': marca_selectata,
         'tip_selectat': tip_selectat,
         'clasa_selectata': clasa_selectata,
+    })
+@login_required(login_url='login_client')
+def detalii_masina(request, id_masina):
+    try:
+        persoana = request.user.persoana
+        client = persoana.client
+    except (Persoana.DoesNotExist, Client.DoesNotExist):
+        return HttpResponseForbidden(
+            'Nu ai permisiunea de a accesa această pagină.'
+        )
+
+    masina = get_object_or_404(
+        Masina,
+        id_masina=id_masina,
+        status='Disponibila'
+    )
+
+    return render(request, 'aplicatie/detalii_masina.html', {
+        'masina': masina
     })

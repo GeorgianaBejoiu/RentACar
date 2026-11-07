@@ -12,6 +12,14 @@ class Persoana(models.Model):
     telefon = models.CharField(max_length=20)
     email = models.EmailField(unique=True)
     adresa = models.CharField(max_length=255)
+    tip_persoana = models.CharField(
+    max_length=20,
+    choices=[
+        ('Client', 'Client'),
+        ('Angajat', 'Angajat'),
+    ]
+
+)
 
     utilizator = models.OneToOneField(
     settings.AUTH_USER_MODEL,
@@ -134,6 +142,15 @@ class Masina(models.Model):
         choices=STATUS_CHOICES,
         default='Disponibila'
     )
+
+    tip_masina = models.CharField(
+    max_length=20,
+    choices=[
+        ('Combustibil', 'Combustibil'),
+        ('Electrica', 'Electrica'),
+        ('Hibrida', 'Hibrida'),
+    ]
+)
 
     marca = models.ForeignKey(
         Marca,

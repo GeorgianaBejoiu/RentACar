@@ -1,109 +1,114 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="ro">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mașini disponibile - RentACar</title>
     <link rel="stylesheet" href="{% static 'aplicatie/style.css' %}">
 </head>
+
 <body>
+
+    <a href="{% url 'logout_client' %}" class="logout-link">
+        Deconectare
+    </a>
+
     <div class="client-container">
+
         <h1>Mașini disponibile</h1>
 
         <form method="get" class="filters-form">
-    <label for="marca">Marcă:</label>
-    <select name="marca" id="marca">
-        <option value="">Toate mărcile</option>
-        {% for marca in marci %}
-            <option value="{{ marca.id_marca }}"
-                {% if marca_selectata == marca.id_marca|stringformat:"s" %}selected{% endif %}>
-                {{ marca.marca }}
-            </option>
-        {% endfor %}
-    </select>
 
-    <label for="tip">Tip:</label>
-    <select name="tip" id="tip">
-        <option value="">Toate tipurile</option>
-        {% for tip in tipuri %}
-            <option value="{{ tip.id_tip }}"
-                {% if tip_selectat == tip.id_tip|stringformat:"s" %}selected{% endif %}>
-                {{ tip.tip }}
-            </option>
-        {% endfor %}
-    </select>
+            <label for="marca">Marcă:</label>
+            <select name="marca" id="marca">
+                <option value="">Toate mărcile</option>
+                {% for marca in marci %}
+                <option value="{{ marca.id_marca }}"
+                    {% if marca_selectata == marca.id_marca|stringformat:"s" %}selected{% endif %}>
+                    {{ marca.marca }}
+                </option>
+                {% endfor %}
+            </select>
 
-    <label for="clasa">Clasă:</label>
-    <select name="clasa" id="clasa">
-        <option value="">Toate clasele</option>
-        {% for clasa in clase %}
-            <option value="{{ clasa.id_clasa }}"
-                {% if clasa_selectata == clasa.id_clasa|stringformat:"s" %}selected{% endif %}>
-                {{ clasa.clasa }}
-            </option>
-        {% endfor %}
-    </select>
+            <label for="tip">Tip:</label>
+            <select name="tip" id="tip">
+                <option value="">Toate tipurile</option>
+                {% for tip in tipuri %}
+                <option value="{{ tip.id_tip }}"
+                    {% if tip_selectat == tip.id_tip|stringformat:"s" %}selected{% endif %}>
+                    {{ tip.tip }}
+                </option>
+                {% endfor %}
+            </select>
 
-    <button type="submit">Filtrează</button>
-    <a href="{% url 'lista_masini' %}">Resetează filtrele</a>
-</form>
+            <label for="clasa">Clasă:</label>
+            <select name="clasa" id="clasa">
+                <option value="">Toate clasele</option>
+                {% for clasa in clase %}
+                <option value="{{ clasa.id_clasa }}"
+                    {% if clasa_selectata == clasa.id_clasa|stringformat:"s" %}selected{% endif %}>
+                    {{ clasa.clasa }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Filtrează</button>
+
+            <a href="{% url 'lista_masini' %}">
+                Resetează filtrele
+            </a>
+
+        </form>
 
         {% if masini %}
+
+        <div class="cars-grid">
+
             {% for masina in masini %}
-                <div class="login-card">
 
-                    {% if masina.imagine %}
-                        <img src="{{ masina.imagine.url }}"
-                             alt="{{ masina.marca }} {{ masina.model }}"
-                             class="car-image">
-                    {% endif %}
+            <div class="login-card">
 
-                    <h2>{{ masina.marca }} {{ masina.model }}</h2>
+                {% if masina.imagine %}
+                <img
+                    src="{{ masina.imagine.url }}"
+                    alt="{{ masina.marca }} {{ masina.model }}"
+                    class="car-image">
+                {% endif %}
 
-                    <p>
-                        <strong>Număr înmatriculare:</strong>
-                        {{ masina.nr_inmatriculare }}
-                    </p>
+                <h2>{{ masina.marca }} {{ masina.model }}</h2>
 
-                    <p>
-                        <strong>Tip:</strong>
-                        {{ masina.tip }}
-                    </p>
+                <p>
+                    <strong>Clasă:</strong> {{ masina.clasa }}
+                </p>
 
-                    <p>
-                        <strong>Clasă:</strong>
-                        {{ masina.clasa }}
-                    </p>
+                <p>
+                    <strong>Tip:</strong> {{ masina.tip }}
+                </p>
 
-                    <p>
-                        <strong>Kilometraj:</strong>
-                        {{ masina.nr_km }} km
-                    </p>
+                <p>
+                    <strong>Preț:</strong> {{ masina.pret_ora }} RON/oră
+                </p>
 
-                    <p>
-                        <strong>An fabricație:</strong>
-                        {{ masina.data_fabricatiei|date:"Y" }}
-                    </p>
+                <a href="{% url 'detalii_masina' masina.id_masina %}" class="back-link">
+                    Vezi detalii
+                </a>
 
-                    <p>
-                        <strong>Preț:</strong>
-                        {{ masina.pret_ora }} RON/oră
-                    </p>
+            </div>
 
-                    {% if masina.descriere %}
-                        <p>{{ masina.descriere }}</p>
-                    {% endif %}
-
-                </div>
             {% endfor %}
+
+        </div>
+
         {% else %}
-            <p>Momentan nu există mașini disponibile.</p>
+
+        <p>Momentan nu există mașini disponibile.</p>
+
         {% endif %}
 
-        <a href="{% url 'client_home' %}" class="back-link">
-            Înapoi la pagina clientului
-        </a>
     </div>
+
 </body>
 </html>

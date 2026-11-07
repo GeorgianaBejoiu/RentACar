@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ masina.marca }} {{ masina.model }} - RentACar</title>
+    <link rel="stylesheet" href="{% static 'aplicatie/style.css' %}">
+</head>
+<body>
+    <div class="client-container">
+        <h1>{{ masina.marca }} {{ masina.model }}</h1>
+
+        {% if masina.imagine %}
+            <img src="{{ masina.imagine.url }}"
+                 alt="{{ masina.marca }} {{ masina.model }}"
+                 class="car-image">
+        {% endif %}
+
+        <h2>Informații generale</h2>
+
+        <p><strong>Marcă:</strong> {{ masina.marca }}</p>
+        <p><strong>Model:</strong> {{ masina.model }}</p>
+        <p><strong>Număr înmatriculare:</strong> {{ masina.nr_inmatriculare }}</p>
+        <p><strong>Tip:</strong> {{ masina.tip }}</p>
+        <p><strong>Clasă:</strong> {{ masina.clasa }}</p>
+        <p><strong>Kilometraj:</strong> {{ masina.nr_km }} km</p>
+        <p><strong>An fabricație:</strong> {{ masina.data_fabricatiei|date:"Y" }}</p>
+        <p><strong>Preț:</strong> {{ masina.pret_ora }} RON/oră</p>
+        <p><strong>Status:</strong> {{ masina.status }}</p>
+
+        {% if masina.descriere %}
+            <h2>Descriere</h2>
+            <p>{{ masina.descriere }}</p>
+        {% endif %}
+
+        <a href="{% url 'lista_masini' %}" class="back-link">
+            Înapoi la lista de mașini
+        </a>
+    </div>
+</body>
+</html>
