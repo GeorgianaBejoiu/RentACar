@@ -11,6 +11,44 @@
     <div class="client-container">
         <h1>Mașini disponibile</h1>
 
+        <form method="get" class="filters-form">
+    <label for="marca">Marcă:</label>
+    <select name="marca" id="marca">
+        <option value="">Toate mărcile</option>
+        {% for marca in marci %}
+            <option value="{{ marca.id_marca }}"
+                {% if marca_selectata == marca.id_marca|stringformat:"s" %}selected{% endif %}>
+                {{ marca.marca }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="tip">Tip:</label>
+    <select name="tip" id="tip">
+        <option value="">Toate tipurile</option>
+        {% for tip in tipuri %}
+            <option value="{{ tip.id_tip }}"
+                {% if tip_selectat == tip.id_tip|stringformat:"s" %}selected{% endif %}>
+                {{ tip.tip }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="clasa">Clasă:</label>
+    <select name="clasa" id="clasa">
+        <option value="">Toate clasele</option>
+        {% for clasa in clase %}
+            <option value="{{ clasa.id_clasa }}"
+                {% if clasa_selectata == clasa.id_clasa|stringformat:"s" %}selected{% endif %}>
+                {{ clasa.clasa }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Filtrează</button>
+    <a href="{% url 'lista_masini' %}">Resetează filtrele</a>
+</form>
+
         {% if masini %}
             {% for masina in masini %}
                 <div class="login-card">

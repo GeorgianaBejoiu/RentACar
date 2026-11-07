@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 
-from .models import Persoana, Client, Masina
+from .models import Persoana, Client, Masina, Marca, Tip, Clasa
 
 
 def login_client(request):
@@ -51,6 +51,7 @@ def logout_client(request):
     logout(request)
     return redirect('login_client')
 
+
 @login_required(login_url='login_client')
 def lista_masini(request):
     try:
@@ -63,6 +64,29 @@ def lista_masini(request):
 
     masini = Masina.objects.filter(status='Disponibila')
 
+    marca_selectata = request.GET.get('marca')
+    tip_selectat = request.GET.get('tip')
+    clasa_selectata = request.GET.get('clasa')
+
+    if marca_selectata:
+        masini = masini.filter(marca__id_marca=marca_selectata)
+
+    if tip_selectat:
+        masini = masini.filter(tip__id_tip=tip_selectat)
+
+    if clasa_selectata:
+        masini = masini.filter(clasa__id_clasa=clasa_selectata)
+
+    marci = Marca.objects.all()
+    tipuri = Tip.objects.all()
+    clase = Clasa.objects.all()
+
     return render(request, 'aplicatie/masini.html', {
-        'masini': masini
+        'masini': masini,
+        'marci': marci,
+        'tipuri': tipuri,
+        'clase': clase,
+        'marca_selectata': marca_selectata,
+        'tip_selectat': tip_selectat,
+        'clasa_selectata': clasa_selectata,
     })
