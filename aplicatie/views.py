@@ -6,6 +6,7 @@ from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.db import transaction
 from .forms import InregistrareClientForm
+from django.db.models import Q
 
 from .models import Persoana, Client, Masina, Marca, Tip, Clasa
 
@@ -40,6 +41,7 @@ def login_client(request):
             login(request, utilizator)
             return redirect('lista_masini')
 
+    #Afisam pagina de login si ii transmitem formularul.
     return render(
         request,
         'aplicatie/login.html',
@@ -74,6 +76,13 @@ def lista_masini(request):
         )
 
     masini = Masina.objects.filter(status='Disponibila')
+    cautare = request.GET.get('q', '')
+
+    if cautare:
+        masini = masini.filter(
+            Q(model__icontains=cautare) |
+            Q(marca__marca__icontains=cautare)
+        )
 
     marca_selectata = request.GET.get('marca')
     tip_selectat = request.GET.get('tip')

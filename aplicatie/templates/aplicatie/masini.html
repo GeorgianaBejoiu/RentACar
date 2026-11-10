@@ -21,8 +21,20 @@
 
         <h1>Mașini disponibile</h1>
 
+        <!-- Formular de căutare și filtrare -->
         <form method="get" class="filters-form">
 
+            <!-- Căutare după marcă sau model -->
+            <label for="q">Caută mașină:</label>
+            <input
+                type="text"
+                name="q"
+                id="q"
+                placeholder="Introdu marca sau modelul..."
+                value="{{ request.GET.q|default:'' }}"
+            >
+
+            <!-- Filtrare după marcă -->
             <label for="marca">Marcă:</label>
             <select name="marca" id="marca">
                 <option value="">Toate mărcile</option>
@@ -34,6 +46,7 @@
                 {% endfor %}
             </select>
 
+            <!-- Filtrare după tip -->
             <label for="tip">Tip:</label>
             <select name="tip" id="tip">
                 <option value="">Toate tipurile</option>
@@ -45,6 +58,7 @@
                 {% endfor %}
             </select>
 
+            <!-- Filtrare după clasă -->
             <label for="clasa">Clasă:</label>
             <select name="clasa" id="clasa">
                 <option value="">Toate clasele</option>
@@ -56,14 +70,15 @@
                 {% endfor %}
             </select>
 
-            <button type="submit">Filtrează</button>
+            <button type="submit">Caută și filtrează</button>
 
             <a href="{% url 'lista_masini' %}">
-                Resetează filtrele
+                Resetează căutarea și filtrele
             </a>
 
         </form>
 
+        <!-- Afișarea mașinilor -->
         {% if masini %}
 
             <div class="cars-grid">
@@ -73,9 +88,11 @@
                     <div class="login-card">
 
                         {% if masina.imagine %}
-                            <img src="{{ masina.imagine.url }}"
-                                 alt="{{ masina.marca }} {{ masina.model }}"
-                                 class="car-image">
+                            <img
+                                src="{{ masina.imagine.url }}"
+                                alt="{{ masina.marca }} {{ masina.model }}"
+                                class="car-image"
+                            >
                         {% endif %}
 
                         <h2>{{ masina.marca }} {{ masina.model }}</h2>
@@ -92,8 +109,10 @@
                             <strong>Preț:</strong> {{ masina.pret_ora }} RON/oră
                         </p>
 
-                        <a href="{% url 'detalii_masina' masina.id_masina %}"
-                           class="back-link">
+                        <a
+                            href="{% url 'detalii_masina' masina.id_masina %}"
+                            class="back-link"
+                        >
                             Vezi detalii
                         </a>
 
@@ -105,7 +124,7 @@
 
         {% else %}
 
-            <p>Momentan nu există mașini disponibile.</p>
+            <p>Nu am găsit mașini disponibile pentru criteriile selectate.</p>
 
         {% endif %}
 
