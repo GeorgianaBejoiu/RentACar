@@ -428,3 +428,34 @@ class AreRevizii(models.Model):
 
     def __str__(self):
         return f"{self.id_angajat} - {self.id_masina} - {self.id_revizie}"
+
+    # MASINA FAVORITA
+class MasinaFavorite(models.Model):
+
+    id_client = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE,
+        db_column='id_client'
+    )
+
+    id_masina = models.ForeignKey(
+        Masina,
+        on_delete=models.CASCADE,
+        db_column='id_masina'
+    )
+
+    data_adaugarii = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'MasinaFavorite'
+        verbose_name = 'Masina favorita'
+        verbose_name_plural = 'Masini favorite'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['id_client', 'id_masina'],
+                name='client_masina_favorite_unice'
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.id_client} - {self.id_masina}"

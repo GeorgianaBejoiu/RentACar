@@ -16,7 +16,8 @@ from .models import (
     Plata,
     Asigurare,
     Revizie,
-    AreRevizii
+    AreRevizii,
+    MasinaFavorite
 )
 
 
@@ -67,3 +68,4 @@ admin.site.register(Plata)
 admin.site.register(Asigurare)
 admin.site.register(Revizie)
 admin.site.register(AreRevizii)
+admin.site.register(MasinaFavorite)
