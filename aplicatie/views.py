@@ -2,13 +2,13 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from django.contrib.auth.models import User
 from django.db import transaction
 from .forms import InregistrareClientForm
 from django.db.models import Q
 
-from .models import Persoana, Client, Masina, Marca, Tip, Clasa
+from .models import Persoana, Client, Masina, Marca, Tip, Clasa, MasinaFavorite
 
 
 
@@ -76,6 +76,12 @@ def lista_masini(request):
         )
 
     masini = Masina.objects.filter(status='Disponibila')
+
+    masini_favorite_ids = set(
+    MasinaFavorite.objects.filter(
+        id_client=client
+    ).values_list('id_masina_id', flat=True)
+)
     cautare = request.GET.get('q', '')
 
     if cautare:
@@ -103,6 +109,7 @@ def lista_masini(request):
 
     return render(request, 'aplicatie/masini.html', {
         'masini': masini,
+        'masini_favorite_ids': masini_favorite_ids,
         'marci': marci,
         'tipuri': tipuri,
         'clase': clase,
@@ -162,3 +169,64 @@ def inregistrare_client(request):
         'aplicatie/inregistrare.html',
         {'form': form}
     )
+
+@login_required(login_url='login_client')
+def toggle_favorit(request, id_masina):
+    if request.method != 'POST':
+        return JsonResponse(
+            {'success': False, 'error': 'Metoda nu este permisă.'},
+            status=405
+        )
+
+    try:
+        persoana = request.user.persoana
+        client = persoana.client
+    except (Persoana.DoesNotExist, Client.DoesNotExist):
+        return JsonResponse(
+            {'success': False, 'error': 'Nu ai permisiunea.'},
+            status=403
+        )
+
+    masina = get_object_or_404(
+        Masina,
+        id_masina=id_masina
+    )
+
+    favorit, creat = MasinaFavorite.objects.get_or_create(
+        id_client=client,
+        id_masina=masina
+    )
+
+    if creat:
+        este_favorita = True
+    else:
+        favorit.delete()
+        este_favorita = False
+
+    return JsonResponse({
+        'success': True,
+        'este_favorita': este_favorita
+    })
+
+@login_required(login_url='login_client')
+def lista_favorite(request):
+    try:
+        persoana = request.user.persoana
+        client = persoana.client
+    except (Persoana.DoesNotExist, Client.DoesNotExist):
+        return HttpResponseForbidden(
+            'Nu ai permisiunea de a accesa această pagină.'
+        )
+
+    favorite = MasinaFavorite.objects.filter(
+        id_client=client
+    ).select_related(
+        'id_masina',
+        'id_masina__marca',
+        'id_masina__tip',
+        'id_masina__clasa'
+    )
+
+    return render(request, 'aplicatie/favorite.html', {
+        'favorite': favorite
+    })
