@@ -1,10 +1,15 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{{ masina.marca }} {{ masina.model }} - RentACar</title>
+
+    <meta name="description" content="Închiriază un {{ masina.marca }} {{ masina.model }} de la RentACar. {{ masina.descriere|default:'Descoperă detaliile și prețul acestei mașini disponibile pentru închiriere.'|striptags|truncatechars:150 }}">
+
     <link rel="stylesheet" href="{% static 'aplicatie/style.css' %}">
 </head>
 <body>

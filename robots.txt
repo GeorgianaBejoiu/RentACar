@@ -1,0 +1,7 @@
+
+User-agent: *
+Allow: /masini/
+Disallow: /admin/
+Disallow: /login/
+Disallow: /client/
+Disallow: /favorite/

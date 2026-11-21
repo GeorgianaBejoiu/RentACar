@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from django.db import transaction
 from .forms import InregistrareClientForm
 from django.db.models import Q
+from django.contrib.sitemaps import Sitemap
+from django.urls import reverse
 
 from .models import Persoana, Client, Masina, Marca, Tip, Clasa, MasinaFavorite
 
@@ -65,23 +67,34 @@ def logout_client(request):
     return redirect('login_client')
 
 
-@login_required(login_url='login_client')
-def lista_masini(request):
-    try:
-        persoana = request.user.persoana
-        client = persoana.client
-    except (Persoana.DoesNotExist, Client.DoesNotExist):
-        return HttpResponseForbidden(
-            'Nu ai permisiunea de a accesa această pagină.'
-        )
 
+def lista_masini(request):
+    # Inițializăm favoritele și numele clientului
+    # cu valori implicite pentru vizitatorii neautentificați.
+    masini_favorite_ids = set()
+    nume_client = ''
+
+    # Dacă utilizatorul este autentificat, verificăm dacă este client.
+    if request.user.is_authenticated:
+        try:
+            persoana = request.user.persoana
+            client = persoana.client
+
+            masini_favorite_ids = set(
+                MasinaFavorite.objects.filter(
+                    id_client=client
+                ).values_list('id_masina_id', flat=True)
+            )
+
+            nume_client = persoana.prenume + ' ' + persoana.nume
+
+        except (Persoana.DoesNotExist, Client.DoesNotExist):
+            pass
+
+    # Preluăm mașinile disponibile.
     masini = Masina.objects.filter(status='Disponibila')
 
-    masini_favorite_ids = set(
-    MasinaFavorite.objects.filter(
-        id_client=client
-    ).values_list('id_masina_id', flat=True)
-)
+    # Căutare după model sau marcă.
     cautare = request.GET.get('q', '')
 
     if cautare:
@@ -90,6 +103,7 @@ def lista_masini(request):
             Q(marca__marca__icontains=cautare)
         )
 
+    # Preluăm filtrele selectate.
     marca_selectata = request.GET.get('marca')
     tip_selectat = request.GET.get('tip')
     clasa_selectata = request.GET.get('clasa')
@@ -103,6 +117,7 @@ def lista_masini(request):
     if clasa_selectata:
         masini = masini.filter(clasa__id_clasa=clasa_selectata)
 
+    # Preluăm opțiunile disponibile pentru filtre.
     marci = Marca.objects.all()
     tipuri = Tip.objects.all()
     clase = Clasa.objects.all()
@@ -116,18 +131,9 @@ def lista_masini(request):
         'marca_selectata': marca_selectata,
         'tip_selectat': tip_selectat,
         'clasa_selectata': clasa_selectata,
-        'nume_client': persoana.prenume + ' ' + persoana.nume,
+        'nume_client': nume_client,
     })
-@login_required(login_url='login_client')
 def detalii_masina(request, id_masina):
-    try:
-        persoana = request.user.persoana
-        client = persoana.client
-    except (Persoana.DoesNotExist, Client.DoesNotExist):
-        return HttpResponseForbidden(
-            'Nu ai permisiunea de a accesa această pagină.'
-        )
-
     masina = get_object_or_404(
         Masina,
         id_masina=id_masina,
@@ -230,3 +236,15 @@ def lista_favorite(request):
     return render(request, 'aplicatie/favorite.html', {
         'favorite': favorite
     })
+class MasiniSitemap(Sitemap):
+    changefreq = 'weekly'
+    priority = 0.8
+
+    def items(self):
+        return Masina.objects.filter(status='Disponibila')
+
+    def location(self, obj):
+        return reverse(
+            'detalii_masina',
+            kwargs={'id_masina': obj.id_masina}
+        )
