@@ -10,4 +10,5 @@ urlpatterns = [
     path('inregistrare/', views.inregistrare_client, name='inregistrare_client'),
     path('masini/<int:id_masina>/favorite/',views.toggle_favorit,name='toggle_favorit'),
     path('favorite/',views.lista_favorite,name='lista_favorite'),
+    path('', views.lista_masini, name='home'),
 ]
