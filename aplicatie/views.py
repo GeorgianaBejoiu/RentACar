@@ -254,7 +254,7 @@ class PaginiSitemap(Sitemap):
     changefreq = 'weekly'
 
     def items(self):
-        return ['lista_masini']
+        return ['home','lista_masini']
 
     def location(self, item):
         return reverse(item)
