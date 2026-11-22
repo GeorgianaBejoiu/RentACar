@@ -7,7 +7,7 @@ from pathlib import Path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
-from aplicatie.views import MasiniSitemap
+from aplicatie.views import MasiniSitemap, PaginiSitemap
 
 
 def robots_txt(request):
@@ -15,7 +15,7 @@ def robots_txt(request):
     return FileResponse(open(fisier, 'rb'), content_type='text/plain')
 
 sitemaps = {
-    'masini': MasiniSitemap,
+    'masini': MasiniSitemap, 'pagini': PaginiSitemap,
 }
 
 urlpatterns = [

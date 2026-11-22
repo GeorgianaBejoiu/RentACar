@@ -1,15 +1,16 @@
+
+{% extends 'aplicatie/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ro">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autentificare - RentACar</title>
-    <link rel="stylesheet" href="{% static 'aplicatie/style.css' %}">
-</head>
+{% block title %}Autentificare - RentACar{% endblock %}
 
-<body>
+{% block meta_description %}
+    Autentifică-te în contul tău RentACar pentru a accesa serviciile de închiriere auto.
+{% endblock %}
+
+{% block meta_robots %}noindex, follow{% endblock %}
+
+{% block content %}
 
     <div class="container">
         <div class="login-card">
@@ -34,6 +35,4 @@
         </div>
     </div>
 
-</body>
-
-</html>
+{% endblock %}

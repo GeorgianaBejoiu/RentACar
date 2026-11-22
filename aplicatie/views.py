@@ -248,3 +248,13 @@ class MasiniSitemap(Sitemap):
             'detalii_masina',
             kwargs={'id_masina': obj.id_masina}
         )
+
+class PaginiSitemap(Sitemap):
+    priority = 1.0
+    changefreq = 'weekly'
+
+    def items(self):
+        return ['lista_masini']
+
+    def location(self, item):
+        return reverse(item)

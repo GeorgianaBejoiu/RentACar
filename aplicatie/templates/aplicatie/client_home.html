@@ -1,14 +1,16 @@
 
+{% extends 'aplicatie/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RentACar - Pagina clientului</title>
-    <link rel="stylesheet" href="{% static 'aplicatie/style.css' %}">
-</head>
-<body>
+
+{% block title %}RentACar - Pagina clientului{% endblock %}
+
+{% block meta_description %}
+    Pagina personală a clientului RentACar.
+{% endblock %}
+
+{% block meta_robots %}noindex, follow{% endblock %}
+
+{% block content %}
 
     <a href="{% url 'logout_client' %}" class="logout-link">
         Deconectare
@@ -22,5 +24,4 @@
         <p>Suntem bucuroși să te avem alături!</p>
     </div>
 
-</body>
-</html>
+{% endblock %}

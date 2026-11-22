@@ -1,14 +1,16 @@
 
+{% extends 'aplicatie/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creare cont - RentACar</title>
-    <link rel="stylesheet" href="{% static 'aplicatie/style.css' %}">
-</head>
-<body>
+
+{% block title %}Creare cont - RentACar{% endblock %}
+
+{% block meta_description %}
+    Creează un cont de client RentACar pentru a putea utiliza serviciile de închiriere auto.
+{% endblock %}
+
+{% block meta_robots %}noindex, follow{% endblock %}
+
+{% block content %}
 
     <div class="container">
         <div class="login-card register-card">
@@ -31,5 +33,4 @@
         </div>
     </div>
 
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,27 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}RentACar - Închirieri auto{% endblock %}</title>
+
+    <meta name="description" content="{% block meta_description %}Descoperă mașinile disponibile pentru închiriere la RentACar.{% endblock %}">
+
+    <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}">
+
+    <link rel="canonical" href="{% block canonical %}{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% endblock %}">
+
+    {% block extra_head %}{% endblock %}
+
+    <link rel="stylesheet" href="{% static 'aplicatie/style.css' %}">
+</head>
+
+<body>
+    {% block content %}{% endblock %}
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
