@@ -10,13 +10,42 @@
     Închiriază un {{ masina.marca }} {{ masina.model }} de la RentACar. {{ masina.descriere|default:'Descoperă detaliile și prețul acestei mașini disponibile pentru închiriere.'|striptags|truncatechars:150 }}
 {% endblock %}
 
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Car",
+  "name": "{{ masina.marca|escapejs }} {{ masina.model|escapejs }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ masina.marca|escapejs }}"
+  },
+  "model": "{{ masina.model|escapejs }}",
+  "vehicleModelDate": "{{ masina.data_fabricatiei|date:'Y' }}",
+  "mileageFromOdometer": {
+    "@type": "QuantitativeValue",
+    "value": {{ masina.nr_km|default:0 }},
+    "unitCode": "KMT"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ masina.pret_ora|stringformat:'.2f' }}",
+    "priceCurrency": "RON",
+    "description": "Preț pe oră pentru închirierea autoturismului"
+  }
+}
+</script>
+{% endblock %}
+
+
 {% block content %}
     <div class="client-container">
         <h1>{{ masina.marca }} {{ masina.model }}</h1>
 
         {% if masina.imagine %}
             <img src="{{ masina.imagine.url }}"
-                 alt="{{ masina.marca }} {{ masina.model }}"
+                 alt="Autoturism {{ masina.marca }} {{ masina.model }} disponibil pentru închiriere"
                  class="car-image">
         {% endif %}
 

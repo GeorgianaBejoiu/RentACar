@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -122,6 +123,7 @@ class Masina(models.Model):
     ]
 
     id_masina = models.AutoField(primary_key=True)
+    slug = models.SlugField(max_length=200, null=True, blank=True)
     nr_inmatriculare = models.CharField(max_length=20, unique=True)
     model = models.CharField(max_length=100, default='Nespecificat')
     descriere = models.TextField(blank=True, null=True)
@@ -172,6 +174,23 @@ class Masina(models.Model):
         db_table = 'Masina'
         verbose_name = 'Masina'
         verbose_name_plural = 'Masini'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            denumire = f"{self.marca.marca} {self.model}"
+            slug_baza = slugify(denumire)
+            slug = slug_baza
+            numar = 1
+
+            while Masina.objects.filter(slug=slug).exclude(
+                pk=self.pk
+            ).exists():
+                numar += 1
+                slug = f"{slug_baza}-{numar}"
+
+            self.slug = slug
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.nr_inmatriculare

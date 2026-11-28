@@ -105,7 +105,7 @@
 
                     {% if masina.imagine %}
                         <img src="{{ masina.imagine.url }}"
-                             alt="{{ masina.marca }} {{ masina.model }}"
+                             alt="Autoturism {{ masina.marca }} {{ masina.model }} disponibil pentru închiriere"
                              class="car-image"
                              loading="lazy"
                              decoding="async">
@@ -133,7 +133,7 @@
                     <p><strong>Tip:</strong> {{ masina.tip }}</p>
                     <p><strong>Preț:</strong> {{ masina.pret_ora }} RON/oră</p>
 
-                    <a href="{% url 'detalii_masina' masina.id_masina %}"
+                    <a href="{% url 'detalii_masina' masina.slug %}"
                        class="back-link">
                         Vezi detalii
                     </a>

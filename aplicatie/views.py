@@ -133,16 +133,21 @@ def lista_masini(request):
         'clasa_selectata': clasa_selectata,
         'nume_client': nume_client,
     })
-def detalii_masina(request, id_masina):
+def detalii_masina(request, slug):
     masina = get_object_or_404(
         Masina,
-        id_masina=id_masina,
+        slug=slug,
         status='Disponibila'
     )
+    return render(request, 'aplicatie/detalii_masina.html', {'masina': masina})
+def redirectionare_masina(request, id_masina):
+    masina = get_object_or_404(Masina, id_masina=id_masina)
 
-    return render(request, 'aplicatie/detalii_masina.html', {
-        'masina': masina
-    })
+    return redirect(
+        'detalii_masina',
+        slug=masina.slug,
+        permanent=True
+    )
 def inregistrare_client(request):
     form = InregistrareClientForm(request.POST or None)
 
@@ -246,9 +251,8 @@ class MasiniSitemap(Sitemap):
     def location(self, obj):
         return reverse(
             'detalii_masina',
-            kwargs={'id_masina': obj.id_masina}
+            kwargs={'slug': obj.slug}
         )
-
 class PaginiSitemap(Sitemap):
     priority = 1.0
     changefreq = 'weekly'

@@ -12,7 +12,7 @@ class TestListaMasini(TestCase):
     
     def test_detalii_masina_inexistenta_returneaza_404(self):
         raspuns = self.client.get(
-            reverse('detalii_masina', kwargs={'id_masina': 99999})
+            reverse('detalii_masina', kwargs={'slug': 'masina-inexistenta'})
         )
 
         self.assertEqual(raspuns.status_code, 404)

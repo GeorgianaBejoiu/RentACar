@@ -14,6 +14,8 @@
           rel="stylesheet">
 {% endblock %}
 
+{% block meta_robots %}noindex, nofollow{% endblock %}
+
 {% block content %}
 
     <div class="client-container">
@@ -57,7 +59,7 @@
                             </p>
 
                             <a
-                                href="{% url 'detalii_masina' masina.id_masina %}"
+                                href="{% url 'detalii_masina' masina.slug %}"
                                 class="back-link"
                             >
                                 Vezi detalii
